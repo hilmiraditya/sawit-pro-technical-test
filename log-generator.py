@@ -46,7 +46,7 @@ def get_additional_info():
     return random.choice(ADDITIONAL_INFO)
 
 def generate_log():
-    return get_timestamp() + " " + get_service_name() + " " + get_status_code() + " " + get_response_time() + " " + get_user_id() + " " + get_transaction_id() + " " + get_additional_info() + "\n"
+    return "[" + get_timestamp() + "] " + get_service_name() + " " + get_status_code() + " " + get_response_time() + " " + get_user_id() + " " + get_transaction_id() + " [User Agent: " + get_additional_info() + "]\n"
 
 def main():
     log_file = open(LOG_FILE, "a")
