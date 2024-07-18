@@ -1,2 +1,3 @@
-rm -rf ./log-categorized-status-code
+rm -rf ./status-code-log
+rm -rf ./activity-log
 rm -rf sample.log
