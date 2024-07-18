@@ -1,1 +1,7 @@
-sample.log
+# Ignore all log files
+*.log
+
+# Other potential ignores
+*.pyc
+__pycache__/
+.DS_Store
