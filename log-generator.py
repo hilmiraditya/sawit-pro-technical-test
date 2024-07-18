@@ -9,14 +9,9 @@ from datetime import datetime
 LOG_LINES = 1000
 LOG_FILE = "sample.log"
 STATUS_CODES = [200, 201, 400, 401, 403, 404, 500, 502, 503]
-SERVICE_NAMES = ["sawitpro-auth", "sawitpro-payment", "sawitpro-inventory", "sawitpro-order", "sawitpro-shipping"]
-ADDITIONAL_INFO = [
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15",
-    "Mozilla/5.0 (Linux; Android 11; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Mobile Safari/537.36",
-    "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1",
-    "Mozilla/5.0 (iPad; CPU OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1"
-]
+SERVICE_NAMES = ["auth", "payment", "checkout", "logistic"]
+ACTIVITIES= ["purchase", "view", "return"]
+ITEMS = ["iPhone", "Xiaomi", "Samsung", "Oppo", "Realme", "Vivo"]
 
 def get_timestamp():
     return str(datetime.now())
@@ -43,10 +38,10 @@ def get_transaction_id():
     return "transaction_" + str(random.randint(0,300))
 
 def get_additional_info():
-    return random.choice(ADDITIONAL_INFO)
+    return random.choice(ACTIVITIES)+"_"+random.choice(ITEMS)
 
 def generate_log():
-    return "[" + get_timestamp() + "] " + get_service_name() + " " + get_status_code() + " " + get_response_time() + " " + get_user_id() + " " + get_transaction_id() + " [User Agent: " + get_additional_info() + "]\n"
+    return "[" + get_timestamp() + "] " + get_service_name() + " " + get_status_code() + " " + get_response_time() + " " + get_user_id() + " " + get_transaction_id() + " " + get_additional_info() + "\n"
 
 def main():
     log_file = open(LOG_FILE, "a")
