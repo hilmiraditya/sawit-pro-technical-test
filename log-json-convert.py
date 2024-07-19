@@ -15,7 +15,7 @@ def parse_logs():
         for log in logs:
             log_splits=log.split()
             timestamp = log_splits[0]+" "+log_splits[1]
-            
+            timestamp = timestamp.replace("[","").replace("]","")
             data_log = {
                 "timestamp": timestamp,
                 "service_name": log_splits[2],
