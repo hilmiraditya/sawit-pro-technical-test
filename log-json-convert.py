@@ -14,8 +14,13 @@ def parse_logs():
     with open(LOG_FILE, "r") as logs:
         for log in logs:
             log_splits=log.split()
+            
+            timestamp = log_splits[0]+" "+log_splits[1]
+            timestamp.replace("[", "")
+            timestamp.replace("]", "")
+
             data_log = {
-                "timestamp": log_splits[1],
+                "timestamp": timestamp,
                 "service_name": log_splits[2],
                 "status_code": log_splits[3],
                 "response_time": log_splits[4],
