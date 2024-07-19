@@ -50,9 +50,7 @@ def parse_logs():
             status_code=int(log_splits[3])
             status_code_counts[status_code] = status_code_counts[status_code] + 1
 
-            status_code_log_file=open(STATUS_CODE_BASE_DIRECTORY+"/"+log_splits[3]+".log", "a")
-            status_code_log_file.write(log)
-            status_code_log_file.close()
+            write_file(STATUS_CODE_BASE_DIRECTORY+"/"+log_splits[3]+".log", log)
 
             if "purchase" in log_splits[7]:
                 activity_count("purchase")
@@ -65,7 +63,7 @@ def parse_logs():
             elif "return" in log_splits[7]:
                 activity_count("return")
                 write_file(ACTIVITY_BASE_DIRECTORY+"/return.log", log)
-
+            
             response_time = int(log_splits[4].replace("ms",""))
             response_time_total = response_time_total + response_time
             request_total = request_total + 1
@@ -76,7 +74,7 @@ def parse_logs():
     print(activity_counts)
     print("total request :"+str(request_total))
     print("average response time: "+str(response_time_total/request_total)+"ms")
- 
+
 def main():
     check_sample_log_file()
     initiate_directory(STATUS_CODE_BASE_DIRECTORY)

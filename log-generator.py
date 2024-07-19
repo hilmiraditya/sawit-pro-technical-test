@@ -53,4 +53,6 @@ def main():
     
     log_file.close()
 
+    print("sample request generated, "+str(LOG_LINES)+" lines.")
+
 main()

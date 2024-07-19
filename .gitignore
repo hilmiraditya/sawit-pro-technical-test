@@ -1,6 +1,9 @@
 # Ignore all log files
 *.log
 
+# Ignore all json files
+*.json
+
 # Other potential ignores
 *.pyc
 __pycache__/
