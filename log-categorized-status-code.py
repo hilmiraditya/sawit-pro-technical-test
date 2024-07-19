@@ -1,8 +1,8 @@
 import os
 
-LOG_FILE = "sample.log"
+LOG_FILE="sample.log"
 STATUS_CODE_BASE_DIRECTORY="status-code-log"
-ACTIVITY_BASE_DIRECTORY="activity-log"
+ACTIVITY_BASE_DIRECTORY="transaction-activity-log"
 
 status_code_counts = {
     200 : 0,
@@ -41,6 +41,8 @@ def status_code_count(status_code):
     status_code_counts[status_code] = status_code_counts[status_code] + 1
     
 def parse_logs():
+    response_time_total=0
+    request_total=0
     with open(LOG_FILE, "r") as logs:
         for log in logs:
             log_splits=log.split()
@@ -64,12 +66,21 @@ def parse_logs():
                 activity_count("return")
                 write_file(ACTIVITY_BASE_DIRECTORY+"/return.log", log)
 
+            response_time = int(log_splits[4].replace("ms",""))
+            response_time_total = response_time_total + response_time
+            request_total = request_total + 1
+        
+    print("total of every status code response: ")
+    print(status_code_counts)
+    print("total of every transaction activity: ")
+    print(activity_counts)
+    print("total request :"+str(request_total))
+    print("average response time: "+str(response_time_total/request_total)+"ms")
+ 
 def main():
     check_sample_log_file()
     initiate_directory(STATUS_CODE_BASE_DIRECTORY)
     initiate_directory(ACTIVITY_BASE_DIRECTORY)
     parse_logs()
-    print(status_code_counts)
-    print(activity_counts)
 
 main()
