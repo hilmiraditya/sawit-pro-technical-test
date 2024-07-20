@@ -35,5 +35,6 @@ def parse_logs():
 def main():
     check_sample_log_file()
     parse_logs()
+    print("converted log to JSON, stored in "+JSON_FILE)
 
 main()
