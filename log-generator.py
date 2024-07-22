@@ -1,6 +1,7 @@
 import random
 from datetime import datetime
-
+import time
+import sys
 # This file will be generate random logs
 # Log Format: 
 # [timestamp] [service_name] [status_code] [response_time_ms] [user_id] [transaction_id] [additional_info]
@@ -41,18 +42,29 @@ def get_additional_info():
     return random.choice(ACTIVITIES)+"_"+random.choice(ITEMS)
 
 def generate_log():
-    return "[" + get_timestamp() + "] " + get_service_name() + " " + get_status_code() + " " + get_response_time() + " " + get_user_id() + " " + get_transaction_id() + " " + get_additional_info() + "\n"
-
-def main():
     log_file = open(LOG_FILE, "a")
     log_line = 1
-
     while log_line <= LOG_LINES:
-        log_file.write(generate_log())
+        log_sample="[" + get_timestamp() + "] " + get_service_name() + " " + get_status_code() + " " + get_response_time() + " " + get_user_id() + " " + get_transaction_id() + " " + get_additional_info() + "\n"
+        log_file.write(log_sample)
         log_line += 1
     
     log_file.close()
 
-    print("sample request generated, "+str(LOG_LINES)+" lines.")
+    print(get_timestamp()+" sample request generated, "+str(LOG_LINES)+" lines.")
+
+
+def main():
+    args = sys.argv[1:]
+
+    if len(args) == 2 and args[0] == "-interval":
+        interval=args[1]
+        print(get_timestamp()+" generate log with interval "+interval+"s")
+        while(True):
+            generate_log()
+            time.sleep(int(interval))
+    else:
+        print(get_timestamp()+" generate log")
+        generate_log()
 
 main()

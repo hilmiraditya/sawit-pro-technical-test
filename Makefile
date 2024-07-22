@@ -10,7 +10,7 @@ json-convert-log:
 log-clean:
 	bash ./remove.sh
 
-logging-up:
+compose-up:
 	mkdir -p ./loki/data/index
 	mkdir -p ./loki/data/boltdb-cache
 	mkdir -p ./loki/data/chunks
@@ -23,6 +23,6 @@ logging-up:
 
 	docker-compose up -d
 
-logging-down:
+compose-down:
 	docker-compose down
 	rm -rf ./loki/data
