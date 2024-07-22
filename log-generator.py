@@ -7,8 +7,6 @@ import sys
 # [timestamp] [service_name] [status_code] [response_time_ms] [user_id] [transaction_id] [additional_info]
 
 # Constants
-LOG_LINES = 1000
-LOG_FILE = "sample.log"
 STATUS_CODES = [200, 201, 400, 401, 403, 404, 500, 502, 503]
 SERVICE_NAMES = ["auth", "payment", "checkout", "logistic"]
 ACTIVITIES= ["purchase", "view", "return"]
@@ -24,10 +22,6 @@ def get_status_code():
     return str(random.choice(STATUS_CODES))
 
 def get_response_time():
-    # This function will be generate random response time, fyi: 
-    # 1. Good response time: less than 200 ms
-    # 2. Medium response time: between 200 ms and 1000 ms
-    # 3. Low response time: more than 1000 ms
     return str(random.randint(100,5000)) + "ms"
 
 def get_user_id():
@@ -41,30 +35,35 @@ def get_transaction_id():
 def get_additional_info():
     return random.choice(ACTIVITIES)+"_"+random.choice(ITEMS)
 
-def generate_log():
-    log_file = open(LOG_FILE, "a")
+def generate_log(log_directory,lines):
+    log_file = open(log_directory, "a")
     log_line = 1
-    while log_line <= LOG_LINES:
+    while log_line <= lines:
         log_sample="[" + get_timestamp() + "] " + get_service_name() + " " + get_status_code() + " " + get_response_time() + " " + get_user_id() + " " + get_transaction_id() + " " + get_additional_info() + "\n"
         log_file.write(log_sample)
         log_line += 1
     
     log_file.close()
 
-    print(get_timestamp()+" sample request generated, "+str(LOG_LINES)+" lines.")
+    print(get_timestamp()+" sample request generated, "+str(lines)+" lines.")
 
 
 def main():
+    LOG_LINES = 1000
+    LOG_FILE = "sample.log"
+
     args = sys.argv[1:]
 
-    if len(args) == 2 and args[0] == "-interval":
+    if len(args) > 0 and args[0] == "-interval" and args[2] == "-log-directory" and args[4] == "-line":
         interval=args[1]
-        print(get_timestamp()+" generate log with interval "+interval+"s")
+        log_directory=args[3]
+        lines=int(args[5])
+        print(get_timestamp()+" generate logs with interval "+interval+"s to directory "+log_directory)
         while(True):
-            generate_log()
+            generate_log(log_directory,lines)
             time.sleep(int(interval))
     else:
-        print(get_timestamp()+" generate log")
-        generate_log()
+        print(get_timestamp()+" generate logs")
+        generate_log(LOG_FILE, LOG_LINES)
 
 main()

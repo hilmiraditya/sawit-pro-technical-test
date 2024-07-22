@@ -1,6 +1,9 @@
 generate-log:
 	python3 log-generator.py
 
+generate-log-interval:
+	python3 log-generator.py -interval 20 -log-directory ~/Documents/sample.log -line 20
+
 categorized-log:
 	python3 log-categorized.py
 
