@@ -2,6 +2,8 @@ FROM --platform=linux/amd64 ubuntu:jammy
 
 WORKDIR /app
 
+ENV TZ=Asia/Jakarta
+
 RUN apt-get update \
     && apt-get install -y wget \
     && apt-get install -y unzip \
