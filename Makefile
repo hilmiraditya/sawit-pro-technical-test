@@ -24,8 +24,15 @@ compose-up:
 	sudo chown -R 1000:1000 ./loki/data
 	sudo chmod -R 777 ./loki/data
 
-	docker-compose up -d
+	mkdir -p ./promtail/log
+	sudo chown -R 1000:1000 ./promtail/log
+	sudo chmod -R 777 ./promtail/log
+
+	# docker-compose up -d
+	docker-compose up --build -d
+
 
 compose-down:
 	docker-compose down
 	rm -rf ./loki/data
+	rm -rf ./promtail/log

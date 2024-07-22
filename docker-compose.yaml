@@ -14,11 +14,15 @@ services:
 
     command: -config.file=/etc/loki/loki-config.yaml
   promtail:
-    image: grafana/promtail
+    build: 
+      context: ./promtail
+      dockerfile: Dockerfile
+    ports:
+      - 9080:9080
     container_name: promtail
     volumes:
-      - ./promtail/promtail-config.yaml:/etc/promtail/promtail-config.yaml
-    command: -config.file=/etc/promtail/promtail-config.yaml
+      - ./promtail/log:/var/log
+    command: supervisord -c /etc/supervisor/conf.d/supervisord.conf
   grafana:
     image: grafana/grafana
     container_name: grafana
@@ -28,5 +32,7 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     volumes:
       - ./grafana/datasources:/etc/grafana/provisioning/datasources
