@@ -1,0 +1,13 @@
+# Ignore all log files
+*.log
+
+# Ignore all json files
+*.json
+
+# Other potential ignores
+*.pyc
+__pycache__/
+.DS_Store
+.vscode
+
+loki/data/

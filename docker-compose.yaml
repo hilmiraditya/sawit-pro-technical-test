@@ -1,0 +1,39 @@
+services:
+  loki:
+    image: grafana/loki:2.8.0
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki/loki-config.yaml:/etc/loki/loki-config.yaml
+      - ./loki/data/index:/loki/index
+      - ./loki/data/boltdb-cache:/loki/boltdb-cache
+      - ./loki/data/chunks:/loki/chunks
+      - ./loki/data/wal:/wal
+      - ./loki/data/compactor:/loki/compactor
+
+    command: -config.file=/etc/loki/loki-config.yaml
+  promtail:
+    build: 
+      context: ./promtail
+      dockerfile: Dockerfile
+    ports:
+      - 9080:9080
+    container_name: promtail
+    volumes:
+      - ./promtail/log:/var/log
+    command: supervisord -c /etc/supervisor/conf.d/supervisord.conf
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    volumes:
+      - ./grafana/lib:/var/lib/grafana
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
