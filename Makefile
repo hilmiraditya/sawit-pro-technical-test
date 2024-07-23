@@ -28,6 +28,9 @@ compose-up:
 	sudo chown -R 1000:1000 ./promtail/log
 	sudo chmod -R 777 ./promtail/log
 
+	sudo chown -R 1000:1000 ./grafana
+	sudo chmod -R 777 ./grafana
+
 	# docker-compose up -d
 	docker-compose up --build -d
 

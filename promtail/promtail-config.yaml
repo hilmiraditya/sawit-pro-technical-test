@@ -18,14 +18,21 @@ scrape_configs:
           __path__: /var/log/sample.log
     pipeline_stages:
       - regex:
-          expression: '\[(?P<timestamp>.*?)\] (?P<service>\w+) (?P<status_code>\d+) (?P<response_time>\d+ms) (?P<user_id>\w+) (?P<transaction_id>\w+) (?P<activity>\w+)'
+          expression: '\[(?P<timestamp>.*?)\] (?P<service>\w+) (?P<status_code>\d+) (?P<response_time>\d+)ms (?P<user_id>\w+) (?P<transaction_id>\w+) (?P<activity>\w+)'
       - timestamp:
           source: timestamp
           format: "2006-01-02 15:04:05.999999" 
       - labels:
+          timestamp:
           service:
           status_code:
           response_time:
           user_id:
           transaction_id:
           activity:
+      - replace:
+          expression: '(?P<response_time>\d+)ms'
+          replace: '${response_time}'
+      - output:
+          format: '{{ .response_time | int }}'
+          source: response_time

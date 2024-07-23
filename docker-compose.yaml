@@ -35,4 +35,5 @@ services:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     volumes:
+      - ./grafana/lib:/var/lib/grafana
       - ./grafana/datasources:/etc/grafana/provisioning/datasources
