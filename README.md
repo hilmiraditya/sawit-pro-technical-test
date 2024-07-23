@@ -60,3 +60,39 @@ example of transaction activity purchase.log
 <img src="./images/make-categorized-log-4.png">
 the json file also was converted from sample.log file
 <img src="./images/make-categorized-log-5.png">
+
+
+
+## Monitoring & Logging:
+
+I used Grafana, Loki & Promtail that running using docker-compose. Why I used all of these ? 
+
+Grafana + Loki + Promtail offering an efficient and cost-effective logging solution with seamless integration. Also It's free and I already used these tools before. 
+
+There will be 3 containers : 
+1. Grafana : for visualize the loggging
+2. Loki : for log aggregation system
+3. Promtail : for grep the log based on directory. And on these container there will be a python file which generated log every interval s and how many lines will be generated that declared on supervisord.conf (we assume that promtail containers is like a virtual machine, there are some agent run and stored on /var/log*.log)
+
+Simply just run : 
+
+  ```sh
+  make compose-up
+  ```
+
+it will be pulling image for grafana, loki and also build the image for promtail based on Dockerfile on ./promtail directotry
+
+<img src="./images/make-compose-up-1.png">
+<img src="./images/make-compose-up-2.png">
+<img src="./images/make-compose-up-3.png">
+
+After the compose up, you can access the dashboard can be here : http://localhost:3000/d/bdslekvjbecxsc/sample-log-dashboard?orgId=1&refresh=5s
+
+there are some feature on monitoring : 
+1. show all logs (without filter )
+2. show all logs 
+3. count all total request (without filter)
+4. count all total request
+5. get all average response time on ms (without filter)
+6. get all average response time on ms
+
